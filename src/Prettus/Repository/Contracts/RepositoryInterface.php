@@ -217,4 +217,11 @@ interface RepositoryInterface
      * @return $this
      */
     public function skipPresenter($status = true);
+
+    /**
+     * Get Relation class names for cache invalidate
+     *
+     * @return array
+     */
+    public function getRelations();
 }

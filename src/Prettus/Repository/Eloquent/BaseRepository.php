@@ -83,6 +83,11 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     protected $scopeQuery = null;
 
     /**
+     * @var array
+     */
+    protected $relations = [];
+
+    /**
      * @param Application $app
      */
     public function __construct(Application $app)
@@ -880,5 +885,13 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
         }
 
         return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRelations()
+    {
+        return $this->relations;
     }
 }
