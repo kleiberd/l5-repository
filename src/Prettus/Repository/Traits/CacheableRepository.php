@@ -307,6 +307,30 @@ trait CacheableRepository
     }
 
     /**
+     * Find data by multiple values in one field
+     *
+     * @param $field
+     * @param array $values
+     * @param array $columns
+     *
+     * @return mixed
+     */
+    public function findWhereIn($field, array $values, $columns = ['*'])
+    {
+        if (!$this->allowedCache('findWhereIn') || $this->isSkippedCache()) {
+            return parent::findWhereIn($field, $values, $columns);
+        }
+
+        $key = $this->getCacheKey('findWhereIn', func_get_args());
+        $minutes = $this->getCacheMinutes();
+        $value = $this->getCacheRepository()->remember($key, $minutes, function () use ($field, $values, $columns) {
+            return parent::findWhereIn($field, $values, $columns);
+        });
+
+        return $value;
+    }
+
+    /**
      * Find data by Criteria
      *
      * @param CriteriaInterface $criteria
